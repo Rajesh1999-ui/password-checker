@@ -67,7 +67,7 @@ app.post('/checkPasswordStrength', async (req, res) => {
     });
 });
 
-// PASSWORD GENERATOR
+// GENERATE PASSWORD
 app.post('/generateStrongPassword', (req, res) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let password = '';
@@ -77,6 +77,32 @@ app.post('/generateStrongPassword', (req, res) => {
     }
 
     res.json({ generated_password: password });
+});
+
+// SAVE PASSWORD
+app.post('/savePassword', (req, res) => {
+    const { website, password } = req.body;
+
+    let data = [];
+    try {
+        data = JSON.parse(fs.readFileSync(filePath));
+    } catch {}
+
+    data.push({ website, password });
+
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+    res.json({ message: "Saved" });
+});
+
+// GET PASSWORDS
+app.get('/getPasswords', (req, res) => {
+    try {
+        const data = JSON.parse(fs.readFileSync(filePath));
+        res.json(data);
+    } catch {
+        res.json([]);
+    }
 });
 
 app.listen(port, () => {

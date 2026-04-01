@@ -26,7 +26,7 @@ window.onload = function () {
         });
     });
 
-    // PASSWORD GENERATOR
+    // GENERATE PASSWORD
     document.getElementById('generate-password').addEventListener('click', () => {
         fetch(`${BASE_URL}/generateStrongPassword`, {
             method: 'POST'
@@ -37,6 +37,46 @@ window.onload = function () {
                 data.generated_password;
         });
     });
+
+    // SAVE PASSWORD
+    document.getElementById('save-password').addEventListener('click', () => {
+        const website = document.getElementById('website').value;
+        const password = document.getElementById('generated-password').value;
+
+        if (!password) {
+            alert("Generate password first!");
+            return;
+        }
+
+        fetch(`${BASE_URL}/savePassword`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ website, password })
+        })
+        .then(() => loadPasswords());
+    });
+
+    // LOAD PASSWORDS
+    function loadPasswords() {
+        fetch(`${BASE_URL}/getPasswords`)
+            .then(res => res.json())
+            .then(data => {
+                const table = document.getElementById('password-table');
+                table.innerHTML = "";
+
+                data.forEach(item => {
+                    if (item.website) {
+                        const row = `<tr>
+                            <td>${item.website}</td>
+                            <td>${item.password}</td>
+                        </tr>`;
+                        table.innerHTML += row;
+                    }
+                });
+            });
+    }
+
+    loadPasswords();
 
     // PUBLIC API (IP)
     document.getElementById('get-ip').addEventListener('click', () => {

@@ -3,37 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Strength Checker</title>
+    <title>Password Manager App</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Password Strength Checker</h1>
+<div class="container">
+    <h1>Password Strength Checker</h1>
 
-        <!-- PASSWORD -->
-        <form id="password-form">
-            <input type="password" id="password" placeholder="Enter Password" required>
-            <button type="submit">Check Strength</button>
-        </form>
+    <!-- PASSWORD CHECK -->
+    <form id="password-form">
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <button type="submit">Check Strength</button>
+    </form>
 
-        <p id="strength-score"></p>
-        <p id="recommendations"></p>
-        <p id="breach-status"></p>
+    <p id="strength-score"></p>
+    <p id="recommendations"></p>
+    <p id="breach-status"></p>
 
-        <!-- PASSWORD GENERATOR -->
-        <h3>Generate Password</h3>
-        <button id="generate-password">Generate</button>
-        <input type="text" id="generated-password" readonly>
+    <!-- GENERATOR -->
+    <h3>Generate Password</h3>
+    <button id="generate-password">Generate</button>
+    <input type="text" id="generated-password" readonly>
 
-        <!-- ✅ PUBLIC API -->
-        <h3>Get Your IP Address</h3>
-        <button id="get-ip">Get IP</button>
-        <p id="ip-result"></p>
+    <!-- SAVE PASSWORD -->
+    <h3>Save Password</h3>
 
-    </div>
+    <select id="website">
+        <option value="Facebook">Facebook</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Twitter">Twitter</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <button id="save-password">Save Password</button>
+
+    <!-- TABLE -->
+    <h3>Saved Passwords</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody id="password-table"></tbody>
+    </table>
+
+    <!-- PUBLIC API -->
+    <h3>Your IP Address</h3>
+    <button id="get-ip">Get IP</button>
+    <p id="ip-result"></p>
+
+</div>
 
 </body>
 </html>
