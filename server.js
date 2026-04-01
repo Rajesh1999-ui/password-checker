@@ -79,27 +79,6 @@ app.post('/generateStrongPassword', (req, res) => {
     res.json({ generated_password: password });
 });
 
-
-// ✅ EMAIL VALIDATION (PUBLIC API ADDED)
-app.post('/checkEmail', async (req, res) => {
-    const { email } = req.body;
-
-    // 🔥 👉 PASTE YOUR API KEY HERE
-    const API_KEY = "1234567890abcdef1234567890abcdef";
-
-    try {
-        const response = await axios.get(
-            `https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`
-        );
-
-        res.json(response.data);
-
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).json({ error: "Email API failed" });
-    }
-});
-
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
