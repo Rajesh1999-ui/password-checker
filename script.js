@@ -23,8 +23,7 @@ window.onload = function () {
 
             document.getElementById('breach-status').textContent =
                 data.breached ? "⚠️ Breached" : "✅ Safe";
-        })
-        .catch(err => console.error(err));
+        });
     });
 
     // PASSWORD GENERATOR
@@ -36,19 +35,17 @@ window.onload = function () {
         .then(data => {
             document.getElementById('generated-password').value =
                 data.generated_password;
-        })
-        .catch(err => console.error(err));
+        });
     });
 
-    // ✅ PUBLIC API (IP ADDRESS)
+    // PUBLIC API (IP)
     document.getElementById('get-ip').addEventListener('click', () => {
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
                 document.getElementById('ip-result').textContent =
                     "Your IP: " + data.ip;
-            })
-            .catch(err => console.error(err));
+            });
     });
 
 };
