@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Manager App</title>
+    <title>Password Manager</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -11,7 +11,7 @@
 <body>
 
 <div class="container">
-    <h1>Password Strength Checker</h1>
+    <h1>Password Manager</h1>
 
     <!-- PASSWORD CHECK -->
     <form id="password-form">
@@ -23,30 +23,26 @@
     <p id="recommendations"></p>
     <p id="breach-status"></p>
 
-    <!-- GENERATOR -->
+    <!-- GENERATE -->
     <h3>Generate Password</h3>
     <button id="generate-password">Generate</button>
     <input type="text" id="generated-password" readonly>
 
-    <!-- SAVE PASSWORD -->
+    <!-- SAVE -->
     <h3>Save Password</h3>
-
-    <select id="website">
-        <option value="Facebook">Facebook</option>
-        <option value="Instagram">Instagram</option>
-        <option value="Twitter">Twitter</option>
-        <option value="Other">Other</option>
-    </select>
-
+    <input type="text" id="website" placeholder="Enter Website (Facebook, Insta...)">
     <button id="save-password">Save Password</button>
 
     <!-- TABLE -->
     <h3>Saved Passwords</h3>
-    <table border="1">
+    <button id="show-table">Open Table</button>
+
+    <table border="1" id="password-table-container" style="display:none;">
         <thead>
             <tr>
                 <th>Website</th>
                 <th>Password</th>
+                <th>Saved Time</th>
             </tr>
         </thead>
         <tbody id="password-table"></tbody>

@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;
 
-// Serve frontend
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
@@ -51,15 +50,6 @@ app.post('/checkPasswordStrength', async (req, res) => {
         }
     } catch {}
 
-    let data = [];
-    try {
-        data = JSON.parse(fs.readFileSync(filePath));
-    } catch {}
-
-    data.push({ password, strength: result.score, breached });
-
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-
     res.json({
         strength_score: result.score,
         advice: result.score <= 2 ? "Weak password" : "Strong password",
@@ -79,16 +69,21 @@ app.post('/generateStrongPassword', (req, res) => {
     res.json({ generated_password: password });
 });
 
-// SAVE PASSWORD
+// SAVE PASSWORD (FILE)
 app.post('/savePassword', (req, res) => {
     const { website, password } = req.body;
 
     let data = [];
+
     try {
         data = JSON.parse(fs.readFileSync(filePath));
     } catch {}
 
-    data.push({ website, password });
+    data.push({
+        website,
+        password,
+        time: new Date()
+    });
 
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
@@ -99,7 +94,7 @@ app.post('/savePassword', (req, res) => {
 app.get('/getPasswords', (req, res) => {
     try {
         const data = JSON.parse(fs.readFileSync(filePath));
-        res.json(data);
+        res.json(data.filter(item => item.website));
     } catch {
         res.json([]);
     }

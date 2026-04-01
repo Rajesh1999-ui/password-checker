@@ -43,8 +43,8 @@ window.onload = function () {
         const website = document.getElementById('website').value;
         const password = document.getElementById('generated-password').value;
 
-        if (!password) {
-            alert("Generate password first!");
+        if (!website || !password) {
+            alert("Enter website and generate password!");
             return;
         }
 
@@ -53,7 +53,19 @@ window.onload = function () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ website, password })
         })
-        .then(() => loadPasswords());
+        .then(() => {
+            alert("Saved successfully!");
+            document.getElementById('website').value = "";
+        });
+    });
+
+    // OPEN TABLE BUTTON
+    document.getElementById('show-table').addEventListener('click', () => {
+        const tableContainer = document.getElementById('password-table-container');
+
+        tableContainer.style.display = "table";
+
+        loadPasswords();
     });
 
     // LOAD PASSWORDS
@@ -65,18 +77,17 @@ window.onload = function () {
                 table.innerHTML = "";
 
                 data.forEach(item => {
-                    if (item.website) {
-                        const row = `<tr>
+                    const row = `
+                        <tr>
                             <td>${item.website}</td>
                             <td>${item.password}</td>
-                        </tr>`;
-                        table.innerHTML += row;
-                    }
+                            <td>${new Date(item.time).toLocaleString()}</td>
+                        </tr>
+                    `;
+                    table.innerHTML += row;
                 });
             });
     }
-
-    loadPasswords();
 
     // PUBLIC API (IP)
     document.getElementById('get-ip').addEventListener('click', () => {
