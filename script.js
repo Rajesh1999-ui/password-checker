@@ -21,8 +21,15 @@ window.onload = function () {
             document.getElementById('recommendations').textContent =
                 data.advice;
 
-            document.getElementById('breach-status').textContent =
-                data.breached ? "⚠️ Breached" : "✅ Safe";
+            const breach = document.getElementById('breach-status');
+
+            if (data.breached) {
+                breach.textContent = "⚠️ Breached!";
+                breach.className = "text-danger fw-bold";
+            } else {
+                breach.textContent = "✅ Safe";
+                breach.className = "text-success fw-bold";
+            }
         });
     });
 
@@ -59,13 +66,15 @@ window.onload = function () {
         });
     });
 
-    // OPEN TABLE BUTTON
+    // SHOW TABLE
     document.getElementById('show-table').addEventListener('click', () => {
-        const tableContainer = document.getElementById('password-table-container');
-
-        tableContainer.style.display = "table";
-
+        document.getElementById('table-section').style.display = "block";
         loadPasswords();
+    });
+
+    // HIDE TABLE
+    document.getElementById('hide-table').addEventListener('click', () => {
+        document.getElementById('table-section').style.display = "none";
     });
 
     // LOAD PASSWORDS
@@ -89,7 +98,7 @@ window.onload = function () {
             });
     }
 
-    // PUBLIC API (IP)
+    // PUBLIC API
     document.getElementById('get-ip').addEventListener('click', () => {
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
