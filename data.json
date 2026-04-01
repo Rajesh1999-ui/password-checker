@@ -16,5 +16,23 @@
     "strength": 4,
     "breached": false,
     "time": "2026-04-01T10:30:54.912Z"
+  },
+  {
+    "password": "rghjk",
+    "strength": 1,
+    "breached": true,
+    "time": "2026-04-01T11:24:56.650Z"
+  },
+  {
+    "password": "hfghjghj",
+    "strength": 1,
+    "breached": true,
+    "time": "2026-04-01T11:34:54.244Z"
+  },
+  {
+    "password": "hfghjghj",
+    "strength": 1,
+    "breached": true,
+    "time": "2026-04-01T11:34:55.925Z"
   }
 ]
