@@ -6,16 +6,27 @@ const cors = require('cors');
 const axios = require('axios');
 const crypto = require('crypto');
 const fs = require('fs');
+const path = require('path');
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-const port = 3000;
+// ✅ FIXED PORT (IMPORTANT FOR CLOUD)
+const port = process.env.PORT || 3000;
 
-// ✅ FILE PATH (IMPORTANT FIX)
-const filePath = __dirname + '/data.json';
+// ✅ SERVE STATIC FILES (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname)));
 
-// 🔐 PASSWORD CHECK + PUBLIC API + SAVE DATA
+// ✅ ROOT ROUTE (FIXES "Cannot GET /")
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// ✅ FILE PATH
+const filePath = path.join(__dirname, 'data.json');
+
+// 🔐 PASSWORD CHECK
 app.post('/checkPasswordStrength', async (req, res) => {
     const { password } = req.body;
 
@@ -27,10 +38,10 @@ app.post('/checkPasswordStrength', async (req, res) => {
 
     let advice = 'Your password is strong.';
     if (result.score <= 2) {
-        advice = 'Consider improving your password. Use more characters and avoid simple patterns.';
+        advice = 'Improve password: use more characters and avoid patterns.';
     }
 
-    // 🔐 SHA1 hash
+    // SHA1 hash
     const sha1 = crypto.createHash('sha1')
         .update(password)
         .digest('hex')
@@ -53,12 +64,11 @@ app.post('/checkPasswordStrength', async (req, res) => {
             }
         }
     } catch (err) {
-        console.error("Public API error:", err.message);
+        console.log("API error:", err.message);
     }
 
-    // ✅ READ EXISTING DATA
+    // Read file
     let data = [];
-
     try {
         const fileData = fs.readFileSync(filePath);
         data = JSON.parse(fileData);
@@ -66,7 +76,7 @@ app.post('/checkPasswordStrength', async (req, res) => {
         data = [];
     }
 
-    // ✅ ADD NEW ENTRY
+    // Save data
     data.push({
         password,
         strength: result.score,
@@ -74,12 +84,8 @@ app.post('/checkPasswordStrength', async (req, res) => {
         time: new Date()
     });
 
-    // ✅ SAVE DATA
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-    console.log("✅ Data saved successfully");
-
-    // ✅ RESPONSE
     res.json({
         strength_score: result.score,
         advice,
@@ -104,7 +110,7 @@ app.post('/generateStrongPassword', (req, res) => {
     res.json({ generated_password: password });
 });
 
-// 📊 GET HISTORY
+// 📊 HISTORY
 app.get('/history', (req, res) => {
     try {
         const fileData = fs.readFileSync(filePath);
@@ -116,5 +122,5 @@ app.get('/history', (req, res) => {
 
 // 🚀 START SERVER
 app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}`);
+    console.log(`🚀 Server running on port ${port}`);
 });
