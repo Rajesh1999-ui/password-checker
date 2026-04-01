@@ -1,36 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
 <body class="bg-light">
 
-<div class="container mt-3" style="max-width: 700px;">
+<div class="container mt-5">
 
     <!-- PASSWORD MANAGER -->
-    <div class="card p-3 shadow-sm mb-3">
-        <h5 class="text-center mb-3">🔐 Password Manager</h5>
+    <div class="card p-4 shadow">
+        <h2 class="text-center">🔐 Password Manager</h2>
 
-        <form id="password-form" class="mb-2">
-            <input type="password" id="password" class="form-control form-control-sm mb-2" placeholder="Enter password">
-            <button class="btn btn-sm btn-primary w-100">Check</button>
+        <form id="password-form" class="mb-3">
+            <input type="password" id="password" class="form-control mb-2" placeholder="Enter password">
+            <button class="btn btn-primary">Check</button>
         </form>
 
-        <small id="strength-score"></small><br>
-        <small id="recommendations"></small><br>
-        <small id="breach-status"></small>
+        <p id="strength-score"></p>
+        <p id="recommendations"></p>
+        <p id="breach-status"></p>
 
-        <button id="generate-password" class="btn btn-sm btn-success mt-2 w-100">Generate</button>
-        <input type="text" id="generated-password" class="form-control form-control-sm mt-2" readonly>
+        <button id="generate-password" class="btn btn-success mb-2">Generate</button>
+        <input type="text" id="generated-password" class="form-control mb-3" readonly>
 
-        <input type="text" id="website" class="form-control form-control-sm mt-2" placeholder="Website">
-        <button id="save-password" class="btn btn-sm btn-warning mt-2 w-100">Save</button>
+        <input type="text" id="website" class="form-control mb-2" placeholder="Website">
+        <button id="save-password" class="btn btn-warning mb-3">Save</button>
 
-        <div class="d-flex gap-2 mt-2">
-            <button id="show-table" class="btn btn-sm btn-dark w-50">Show</button>
-            <button id="hide-table" class="btn btn-sm btn-secondary w-50">Hide</button>
-        </div>
+        <button id="show-table" class="btn btn-dark">Show Table</button>
+        <button id="hide-table" class="btn btn-secondary">Hide Table</button>
     </div>
 
     <!-- TABLE -->
-    <div id="table-section" class="card p-3 shadow-sm mb-3" style="display:none;">
-        <h6>Saved Passwords</h6>
-        <table class="table table-sm table-bordered">
+    <div id="table-section" class="card p-4 mt-3 shadow" style="display:none;">
+        <h4>Saved Passwords</h4>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Website</th>
@@ -43,33 +53,34 @@
     </div>
 
     <!-- POLL SYSTEM -->
-    <div class="card p-3 shadow-sm mb-3">
-        <h6>📊 Poll System</h6>
+    <div class="card p-4 mt-3 shadow">
+        <h4>📊 Poll System</h4>
 
-        <button id="load-polls" class="btn btn-sm btn-primary mb-2 w-100">Load Polls</button>
+        <button id="load-polls" class="btn btn-primary mb-3">Load Polls</button>
 
-        <input id="poll-question" class="form-control form-control-sm mb-2" placeholder="Question">
-        <input id="poll-options" class="form-control form-control-sm mb-2" placeholder="Option1,Option2">
+        <h5>Create Poll</h5>
+        <input id="poll-question" class="form-control mb-2" placeholder="Question">
+        <input id="poll-options" class="form-control mb-2" placeholder="Option1,Option2">
+        <button id="create-poll" class="btn btn-warning mb-3">Create</button>
 
-        <button id="create-poll" class="btn btn-sm btn-warning w-100 mb-2">Create Poll</button>
-
-        <div id="polls-container" class="small"></div>
+        <div id="polls-container"></div>
     </div>
 
     <!-- MAP -->
-    <div class="card p-2 shadow-sm mb-3">
-        <h6>📍 Map</h6>
-        <iframe width="100%" height="200"
+    <div class="card p-4 mt-3 shadow">
+        <h4>📍 Map</h4>
+        <iframe width="100%" height="300"
             src="https://www.google.com/maps?q=Dublin&output=embed">
         </iframe>
     </div>
 
     <!-- IP -->
-    <div class="card p-3 shadow-sm">
-        <button id="get-ip" class="btn btn-sm btn-info w-100">Get IP</button>
-        <small id="ip-result"></small>
+    <div class="card p-4 mt-3 shadow">
+        <button id="get-ip" class="btn btn-info">Get IP</button>
+        <p id="ip-result"></p>
     </div>
 
 </div>
 
-</body>a
+</body>
+</html>
