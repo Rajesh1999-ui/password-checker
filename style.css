@@ -1,5 +1,6 @@
 body {
     font-size: 13px;
+    font-family: Arial, sans-serif;
 }
 
 .card {
@@ -7,14 +8,21 @@ body {
 }
 
 button {
-    border-radius: 6px !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+}
+
+input {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
 }
 
 #polls-container div {
-    background: #f8f9fa;
+    border: 1px solid #eee;
     padding: 8px;
-    margin-bottom: 8px;
     border-radius: 6px;
+    margin-bottom: 8px;
+    background: #fff;
 }
 
 #polls-container button {

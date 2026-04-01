@@ -1,100 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Manager</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Manager</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Script -->
-    <script src="script.js" defer></script>
+<script src="script.js" defer></script>
 </head>
 
 <body class="bg-light">
 
-<div class="container py-4" style="max-width: 700px;">
+<div class="container py-4" style="max-width:700px;">
 
-    <h3 class="text-center mb-3">🔐 Password Manager</h3>
+<h3 class="text-center mb-3">🔐 Password Manager</h3>
 
-    <!-- PASSWORD -->
-    <div class="card p-3 mb-3 shadow-sm">
-        <form id="password-form" class="d-flex gap-2 mb-2">
-            <input type="password" id="password" class="form-control form-control-sm" placeholder="Enter password">
-            <button class="btn btn-primary btn-sm">Check</button>
-        </form>
+<!-- PASSWORD -->
+<div class="card p-3 mb-3 shadow-sm">
+<form id="password-form" class="d-flex gap-2 mb-2">
+<input type="password" id="password" class="form-control form-control-sm" placeholder="Enter password">
+<button class="btn btn-primary btn-sm">Check</button>
+</form>
 
-        <small id="strength-score"></small><br>
-        <small id="recommendations"></small><br>
-        <small id="breach-status"></small>
+<small id="strength-score"></small><br>
+<small id="recommendations"></small><br>
+<small id="breach-status"></small>
 
-        <div class="mt-2 d-flex gap-2">
-            <button id="generate-password" class="btn btn-success btn-sm">Generate</button>
-            <input type="text" id="generated-password" class="form-control form-control-sm" readonly>
-        </div>
-
-        <div class="mt-2 d-flex gap-2">
-            <input type="text" id="website" class="form-control form-control-sm" placeholder="Website">
-            <button id="save-password" class="btn btn-warning btn-sm">Save</button>
-        </div>
-
-        <div class="mt-2 d-flex gap-2">
-            <button id="show-table" class="btn btn-dark btn-sm">Show</button>
-            <button id="hide-table" class="btn btn-secondary btn-sm">Hide</button>
-        </div>
-    </div>
-
-    <!-- TABLE -->
-    <div id="table-section" class="card p-3 mb-3 shadow-sm" style="display:none;">
-        <h6>Saved Passwords</h6>
-        <table class="table table-sm table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Website</th>
-                    <th>Password</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody id="password-table"></tbody>
-        </table>
-    </div>
-
-    <!-- POLLS -->
-    <div class="card p-3 mb-3 shadow-sm">
-        <h6>📊 Poll System</h6>
-
-        <button id="load-polls" class="btn btn-primary btn-sm mb-2">Load Polls</button>
-
-        <input id="poll-question" class="form-control form-control-sm mb-1" placeholder="Question">
-        <input id="poll-options" class="form-control form-control-sm mb-2" placeholder="Option1,Option2">
-
-        <button id="create-poll" class="btn btn-warning btn-sm mb-2">Create Poll</button>
-
-        <div id="polls-container"></div>
-    </div>
-
-    <!-- MAP (ADDED BACK) -->
-    <div class="card p-3 mb-3 shadow-sm">
-        <h6>📍 Location Map</h6>
-        <iframe 
-            width="100%" 
-            height="250"
-            class="rounded"
-            src="https://www.google.com/maps?q=Dublin&output=embed">
-        </iframe>
-    </div>
-
-    <!-- IP -->
-    <div class="card p-3 shadow-sm">
-        <button id="get-ip" class="btn btn-info btn-sm">Get IP</button>
-        <p id="ip-result" class="mt-2 small"></p>
-    </div>
-
+<div class="mt-2 d-flex gap-2">
+<button id="generate-password" class="btn btn-success btn-sm">Generate</button>
+<input type="text" id="generated-password" class="form-control form-control-sm" readonly>
 </div>
 
+<div class="mt-2 d-flex gap-2">
+<input type="text" id="website" class="form-control form-control-sm" placeholder="Website">
+<button id="save-password" class="btn btn-warning btn-sm">Save</button>
+</div>
+
+<div class="mt-2 d-flex gap-2">
+<button id="show-table" class="btn btn-dark btn-sm">Show</button>
+<button id="hide-table" class="btn btn-secondary btn-sm">Hide</button>
+</div>
+</div>
+
+<!-- TABLE -->
+<div id="table-section" class="card p-3 mb-3 shadow-sm" style="display:none;">
+<h6>Saved Passwords</h6>
+<table class="table table-sm table-bordered">
+<thead class="table-dark">
+<tr>
+<th>Website</th>
+<th>Password</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody id="password-table"></tbody>
+</table>
+</div>
+
+<!-- POLLS -->
+<div class="card p-3 mb-3 shadow-sm">
+<h6>📊 Poll System</h6>
+
+<button id="load-polls" class="btn btn-primary btn-sm mb-2">Load Polls</button>
+
+<input id="poll-question" class="form-control form-control-sm mb-1" placeholder="Question">
+<input id="poll-options" class="form-control form-control-sm mb-2" placeholder="Option1,Option2">
+
+<button id="create-poll" class="btn btn-warning btn-sm mb-2">Create Poll</button>
+
+<div id="polls-container"></div>
+</div>
+
+<!-- MAP -->
+<div class="card p-3 mb-3 shadow-sm">
+<h6>📍 Map</h6>
+<iframe width="100%" height="250" class="rounded"
+src="https://www.google.com/maps?q=Dublin&output=embed"></iframe>
+</div>
+
+<!-- IP -->
+<div class="card p-3 shadow-sm">
+<button id="get-ip" class="btn btn-info btn-sm">Get IP</button>
+<p id="ip-result" class="mt-2 small"></p>
+</div>
+
+</div>
 </body>
 </html>
