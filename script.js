@@ -1,9 +1,15 @@
 const BASE_URL = "https://password-checker-i2dj.onrender.com";
 
-document.addEventListener("DOMContentLoaded", () => {
+window.onload = function () {
 
-    // Password check
-    document.getElementById('password-form').addEventListener('submit', function (event) {
+    const form = document.getElementById('password-form');
+
+    if (!form) {
+        console.error("Form not found");
+        return;
+    }
+
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const password = document.getElementById('password').value;
@@ -16,32 +22,26 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             document.getElementById('strength-score').textContent =
-                `Password Strength: ${data.strength_score}`;
+                "Strength: " + data.strength_score;
 
             document.getElementById('recommendations').textContent =
-                `Recommendations: ${data.advice}`;
+                data.advice;
 
             document.getElementById('breach-status').textContent =
-                data.breached
-                    ? "⚠️ This password has been found in breaches!"
-                    : "✅ This password is safe.";
+                data.breached ? "⚠️ Breached" : "✅ Safe";
         })
-        .catch(err => console.error("Error:", err));
+        .catch(err => console.error(err));
     });
 
-    // Generate password
     document.getElementById('generate-password').addEventListener('click', () => {
         fetch(`${BASE_URL}/generateStrongPassword`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ length: 12 })
+            method: 'POST'
         })
         .then(res => res.json())
         .then(data => {
             document.getElementById('generated-password').value =
                 data.generated_password;
-        })
-        .catch(err => console.error("Error:", err));
+        });
     });
 
-});
+};
