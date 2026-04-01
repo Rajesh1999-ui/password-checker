@@ -1,7 +1,5 @@
-// ✅ USE YOUR RENDER URL
 const BASE_URL = "https://password-checker-i2dj.onrender.com";
 
-// Password check
 document.getElementById('password-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -22,23 +20,8 @@ document.getElementById('password-form').addEventListener('submit', function (ev
 
         document.getElementById('breach-status').textContent =
             data.breached
-                ? "⚠️ This password has been found in breaches!"
-                : "✅ This password is safe.";
-    })
-    .catch(err => console.error("Error:", err));
-});
-
-// Generate password
-document.getElementById('generate-password').addEventListener('click', () => {
-    fetch(`${BASE_URL}/generateStrongPassword`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ length: 12, include_special_chars: true })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('generated-password').value =
-            data.generated_password;
+                ? "⚠️ Breached!"
+                : "✅ Safe";
     })
     .catch(err => console.error("Error:", err));
 });
