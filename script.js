@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // GENERATE
+    // GENERATE PASSWORD
     document.getElementById('generate-password').addEventListener('click', () => {
         fetch(`${BASE_URL}/generateStrongPassword`, { method: 'POST' })
             .then(res => res.json())
@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 
-    // SAVE
+    // SAVE PASSWORD
     document.getElementById('save-password').addEventListener('click', () => {
         const website = document.getElementById('website').value;
         const password = document.getElementById('generated-password').value;
 
         if (!website || !password) {
-            alert("Enter details!");
+            alert("Enter website and generate password!");
             return;
         }
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ website, password })
         })
-        .then(() => alert("Saved!"));
+        .then(() => alert("Saved successfully!"));
     });
 
     // SHOW TABLE
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('table-section').style.display = "none";
     });
 
-    // LOAD PASSWORDS
+    // LOAD PASSWORDS (✅ FIXED)
     function loadPasswords() {
         fetch(`${BASE_URL}/getPasswords`)
             .then(res => res.json())
@@ -74,13 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 table.innerHTML = "";
 
                 data.forEach(item => {
-                    table.innerHTML += `
+                    const row = `
                         <tr>
                             <td>${item.website}</td>
                             <td>${item.password}</td>
                             <td>${new Date(item.time).toLocaleString()}</td>
                         </tr>
                     `;
+                    table.innerHTML += row;
                 });
             });
     }

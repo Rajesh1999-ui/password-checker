@@ -1,120 +1,89 @@
-const BASE_URL = "https://password-checker-i2dj.onrender.com";
-const NEWS_API_KEY = "YOUR_API_KEY"; // 🔴 replace this
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
 
-document.addEventListener("DOMContentLoaded", function () {
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    // PASSWORD CHECK
-    document.getElementById('password-form').addEventListener('submit', function (e) {
-        e.preventDefault();
+    <script src="script.js" defer></script>
+</head>
 
-        const password = document.getElementById('password').value;
+<body class="bg-light">
 
-        fetch(`${BASE_URL}/checkPasswordStrength`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password })
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('strength-score').textContent =
-                "Strength: " + data.strength_score;
+<div class="container mt-5">
 
-            document.getElementById('recommendations').textContent =
-                data.advice;
+    <!-- MAIN -->
+    <div class="card shadow p-4">
+        <h2 class="text-center mb-4">🔐 Password Manager</h2>
 
-            document.getElementById('breach-status').textContent =
-                data.breached ? "⚠️ Breached" : "✅ Safe";
-        });
-    });
+        <!-- PASSWORD CHECK -->
+        <form id="password-form" class="mb-3">
+            <div class="input-group">
+                <input type="password" id="password" class="form-control" placeholder="Enter Password" required>
+                <button class="btn btn-primary">Check</button>
+            </div>
+        </form>
 
-    // GENERATE
-    document.getElementById('generate-password').addEventListener('click', () => {
-        fetch(`${BASE_URL}/generateStrongPassword`, { method: 'POST' })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('generated-password').value =
-                    data.generated_password;
-            });
-    });
+        <p id="strength-score"></p>
+        <p id="recommendations"></p>
+        <p id="breach-status"></p>
 
-    // SAVE
-    document.getElementById('save-password').addEventListener('click', () => {
-        const website = document.getElementById('website').value;
-        const password = document.getElementById('generated-password').value;
+        <!-- GENERATE -->
+        <h5>Generate Password</h5>
+        <button id="generate-password" class="btn btn-success mb-2">Generate</button>
+        <input type="text" id="generated-password" class="form-control mb-3" readonly>
 
-        if (!website || !password) {
-            alert("Enter details!");
-            return;
-        }
+        <!-- SAVE -->
+        <h5>Save Password</h5>
+        <input type="text" id="website" class="form-control mb-2" placeholder="Enter Website">
+        <button id="save-password" class="btn btn-warning mb-3">Save Password</button>
 
-        fetch(`${BASE_URL}/savePassword`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ website, password })
-        })
-        .then(() => alert("Saved!"));
-    });
+        <!-- TABLE BUTTONS -->
+        <h5>Saved Passwords</h5>
+        <button id="show-table" class="btn btn-dark me-2">Open Table</button>
+        <button id="hide-table" class="btn btn-secondary">Hide Table</button>
+    </div>
 
-    // SHOW TABLE
-    document.getElementById('show-table').addEventListener('click', () => {
-        document.getElementById('table-section').style.display = "block";
-        loadPasswords();
-    });
+    <!-- TABLE -->
+    <div class="card shadow p-4 mt-4" id="table-section" style="display:none;">
+        <h4>📊 Stored Passwords</h4>
 
-    // HIDE TABLE
-    document.getElementById('hide-table').addEventListener('click', () => {
-        document.getElementById('table-section').style.display = "none";
-    });
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Website</th>
+                    <th>Password</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody id="password-table"></tbody>
+        </table>
+    </div>
 
-    // LOAD PASSWORDS
-    function loadPasswords() {
-        fetch(`${BASE_URL}/getPasswords`)
-            .then(res => res.json())
-            .then(data => {
-                const table = document.getElementById('password-table');
-                table.innerHTML = "";
+    <!-- GOOGLE MAP -->
+    <div class="card shadow p-4 mt-4">
+        <h4>📍 Location Map</h4>
 
-                data.forEach(item => {
-                    table.innerHTML += `
-                        <tr>
-                            <td>${item.website}</td>
-                            <td>${item.password}</td>
-                            <td>${new Date(item.time).toLocaleString()}</td>
-                        </tr>
-                    `;
-                });
-            });
-    }
+        <iframe
+            width="100%"
+            height="300"
+            style="border:0"
+            loading="lazy"
+            src="https://www.google.com/maps?q=Dublin&output=embed">
+        </iframe>
+    </div>
 
-    // NEWS API
-    document.getElementById('load-news').addEventListener('click', () => {
-        fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${NEWS_API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                const list = document.getElementById('news-list');
-                list.innerHTML = "";
+    <!-- IP -->
+    <div class="card shadow p-4 mt-4">
+        <h5>Your IP</h5>
+        <button id="get-ip" class="btn btn-info">Get IP</button>
+        <p id="ip-result"></p>
+    </div>
 
-                data.articles.forEach(article => {
-                    list.innerHTML += `
-                        <li class="list-group-item">
-                            <a href="${article.url}" target="_blank">
-                                ${article.title}
-                            </a>
-                        </li>
-                    `;
-                });
-            })
-            .catch(() => alert("News API failed (check API key)"));
-    });
+</div>
 
-    // IP API
-    document.getElementById('get-ip').addEventListener('click', () => {
-        fetch('https://api.ipify.org?format=json')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('ip-result').textContent =
-                    "Your IP: " + data.ip;
-            });
-    });
-
-});
+</body>
+</html>
