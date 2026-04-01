@@ -1,0 +1,22 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Build Stage
+build:
+  stage: build
+  script:
+    - npm install
+
+# Test Stage
+test:
+  stage: test
+  script:
+    - npm test  # Assuming you have test cases defined
+
+# Deploy Stage
+deploy:
+  stage: deploy
+  script:
+    - npm run deploy  # Custom script for deploying the app (for example, using AWS, Heroku, or any cloud service)

@@ -1,0 +1,20 @@
+[
+  {
+    "password": "sdfgh",
+    "strength": 1,
+    "breached": true,
+    "time": "2026-04-01T10:17:29.531Z"
+  },
+  {
+    "password": "fghjkl",
+    "strength": 1,
+    "breached": true,
+    "time": "2026-04-01T10:25:19.070Z"
+  },
+  {
+    "password": "Rajesh@123452",
+    "strength": 4,
+    "breached": false,
+    "time": "2026-04-01T10:30:54.912Z"
+  }
+]
