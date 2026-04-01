@@ -12,21 +12,21 @@ const path = require('path');
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ FIXED PORT (IMPORTANT FOR CLOUD)
+// ✅ PORT FIX
 const port = process.env.PORT || 3000;
 
-// ✅ SERVE STATIC FILES (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname)));
+// ✅ SERVE ALL FILES IN CURRENT FOLDER
+app.use(express.static(__dirname));
 
-// ✅ ROOT ROUTE (FIXES "Cannot GET /")
+// ✅ ROOT ROUTE (IMPORTANT)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// ✅ FILE PATH
+// File path
 const filePath = path.join(__dirname, 'data.json');
 
-// 🔐 PASSWORD CHECK
+// PASSWORD CHECK
 app.post('/checkPasswordStrength', async (req, res) => {
     const { password } = req.body;
 
@@ -36,12 +36,10 @@ app.post('/checkPasswordStrength', async (req, res) => {
 
     const result = zxcvbn(password);
 
-    let advice = 'Your password is strong.';
-    if (result.score <= 2) {
-        advice = 'Improve password: use more characters and avoid patterns.';
-    }
+    let advice = result.score <= 2
+        ? 'Improve password strength.'
+        : 'Strong password.';
 
-    // SHA1 hash
     const sha1 = crypto.createHash('sha1')
         .update(password)
         .digest('hex')
@@ -64,25 +62,15 @@ app.post('/checkPasswordStrength', async (req, res) => {
             }
         }
     } catch (err) {
-        console.log("API error:", err.message);
+        console.log(err.message);
     }
 
-    // Read file
     let data = [];
     try {
-        const fileData = fs.readFileSync(filePath);
-        data = JSON.parse(fileData);
-    } catch (err) {
-        data = [];
-    }
+        data = JSON.parse(fs.readFileSync(filePath));
+    } catch {}
 
-    // Save data
-    data.push({
-        password,
-        strength: result.score,
-        breached,
-        time: new Date()
-    });
+    data.push({ password, strength: result.score, breached });
 
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
@@ -93,34 +81,19 @@ app.post('/checkPasswordStrength', async (req, res) => {
     });
 });
 
-// 🔑 PASSWORD GENERATOR
+// PASSWORD GENERATOR
 app.post('/generateStrongPassword', (req, res) => {
-    const { length = 12, include_special_chars = true } = req.body;
-
-    let charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    if (include_special_chars) {
-        charset += '!@#$%^&*()_+[]{}|;:,.<>?';
-    }
-
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let password = '';
-    for (let i = 0; i < length; i++) {
-        password += charset.charAt(Math.floor(Math.random() * charset.length));
+
+    for (let i = 0; i < 12; i++) {
+        password += chars[Math.floor(Math.random() * chars.length)];
     }
 
     res.json({ generated_password: password });
 });
 
-// 📊 HISTORY
-app.get('/history', (req, res) => {
-    try {
-        const fileData = fs.readFileSync(filePath);
-        res.json(JSON.parse(fileData));
-    } catch (err) {
-        res.json([]);
-    }
-});
-
-// 🚀 START SERVER
+// START SERVER
 app.listen(port, () => {
-    console.log(`🚀 Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
