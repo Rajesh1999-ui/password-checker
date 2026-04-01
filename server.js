@@ -16,20 +16,15 @@ const port = process.env.PORT || 3000;
 // Serve frontend
 app.use(express.static(__dirname));
 
-// Fix homepage
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const filePath = path.join(__dirname, 'data.json');
 
-// Password check
+// PASSWORD CHECK
 app.post('/checkPasswordStrength', async (req, res) => {
     const { password } = req.body;
-
-    if (!password) {
-        return res.status(400).json({ error: "Password required" });
-    }
 
     const result = zxcvbn(password);
 
@@ -72,7 +67,7 @@ app.post('/checkPasswordStrength', async (req, res) => {
     });
 });
 
-// Password generator
+// PASSWORD GENERATOR
 app.post('/generateStrongPassword', (req, res) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let password = '';
@@ -82,6 +77,27 @@ app.post('/generateStrongPassword', (req, res) => {
     }
 
     res.json({ generated_password: password });
+});
+
+
+// ✅ EMAIL VALIDATION (PUBLIC API ADDED)
+app.post('/checkEmail', async (req, res) => {
+    const { email } = req.body;
+
+    // 🔥 👉 PASTE YOUR API KEY HERE
+    const API_KEY = "1234567890abcdef1234567890abcdef";
+
+    try {
+        const response = await axios.get(
+            `https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`
+        );
+
+        res.json(response.data);
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ error: "Email API failed" });
+    }
 });
 
 app.listen(port, () => {
