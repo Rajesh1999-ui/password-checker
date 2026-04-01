@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 <div class="container mt-5">
 
     <!-- PASSWORD MANAGER -->
-    <div class="card p-4 shadow">
+    <!-- <div class="card p-4 shadow">
         <h2 class="text-center">🔐 Password Manager</h2>
 
         <form id="password-form" class="mb-3">
@@ -38,9 +38,48 @@
     </div>
 
     <!-- TABLE -->
-    <div id="table-section" class="card p-4 mt-3 shadow" style="display:none;">
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🔐 Password Manager</h2>
+
+    <!-- PASSWORD -->
+    <div class="card">
+        <form id="password-form">
+            <input type="password" id="password" placeholder="Enter password">
+            <button>Check</button>
+        </form>
+
+        <p id="strength-score"></p>
+        <p id="recommendations"></p>
+        <p id="breach-status"></p>
+
+        <button id="generate-password">Generate</button>
+        <input type="text" id="generated-password" readonly>
+
+        <input type="text" id="website" placeholder="Website">
+        <button id="save-password">Save</button>
+
+        <button id="show-table">Show Table</button>
+        <button id="hide-table">Hide Table</button>
+    </div>
+
+    <!-- TABLE -->
+    <div id="table-section" class="card hidden">
         <h4>Saved Passwords</h4>
-        <table class="table table-bordered">
+        <table>
             <thead>
                 <tr>
                     <th>Website</th>
@@ -52,31 +91,22 @@
         </table>
     </div>
 
-    <!-- POLL SYSTEM -->
-    <div class="card p-4 mt-3 shadow">
-        <h4>📊 Poll System</h4>
+    <!-- POLLS -->
+    <div class="card">
+        <h4>📊 Polls</h4>
 
-        <button id="load-polls" class="btn btn-primary mb-3">Load Polls</button>
+        <button id="load-polls">Load Polls</button>
 
-        <h5>Create Poll</h5>
-        <input id="poll-question" class="form-control mb-2" placeholder="Question">
-        <input id="poll-options" class="form-control mb-2" placeholder="Option1,Option2">
-        <button id="create-poll" class="btn btn-warning mb-3">Create</button>
+        <input id="poll-question" placeholder="Question">
+        <input id="poll-options" placeholder="Option1,Option2">
+        <button id="create-poll">Create</button>
 
         <div id="polls-container"></div>
     </div>
 
-    <!-- MAP -->
-    <div class="card p-4 mt-3 shadow">
-        <h4>📍 Map</h4>
-        <iframe width="100%" height="300"
-            src="https://www.google.com/maps?q=Dublin&output=embed">
-        </iframe>
-    </div>
-
     <!-- IP -->
-    <div class="card p-4 mt-3 shadow">
-        <button id="get-ip" class="btn btn-info">Get IP</button>
+    <div class="card">
+        <button id="get-ip">Get IP</button>
         <p id="ip-result"></p>
     </div>
 

@@ -1,139 +1,55 @@
-/* 
- body {
+body {
     font-family: Arial;
-    background: #f4f4f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: #f4f6f9;
+    font-size: 13px;
 }
 
 .container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.card {
     background: white;
-    padding: 20px;
+    padding: 12px;
+    margin: 10px 0;
     border-radius: 8px;
-    width: 320px;
-    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px;
+    width: 100%;
+    margin: 5px 0;
+    padding: 6px;
+    font-size: 12px;
 }
 
 button {
-    padding: 10px;
-    background: green;
-    color: white;
+    margin: 4px 2px;
+    padding: 5px 8px;
+    font-size: 12px;
     border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background: darkgreen;
-} */
- /* GENERAL */
-body {
-    font-size: 14px;
-    background-color: #f5f7fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0056b3;
 }
 
-/* CONTAINER */
-.container {
-    max-width: 700px;
+table {
+    width: 100%;
+    font-size: 11px;
+    border-collapse: collapse;
 }
 
-/* CARD DESIGN */
-.card {
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+th, td {
+    border: 1px solid #ddd;
+    padding: 4px;
 }
 
-/* HEADINGS */
-h5, h6 {
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-/* INPUT FIELDS */
-input {
-    border-radius: 8px !important;
-    font-size: 13px;
-    padding: 6px 10px;
-}
-
-/* BUTTONS */
-button {
-    border-radius: 8px !important;
-    font-size: 13px !important;
-    padding: 6px 10px !important;
-    transition: 0.2s ease;
-}
-
-/* BUTTON HOVER EFFECT */
-button:hover {
-    transform: scale(1.02);
-    opacity: 0.9;
-}
-
-/* TABLE */
-.table {
-    font-size: 12px;
-}
-
-.table th {
-    background-color: #343a40;
-    color: white;
-    font-size: 12px;
-}
-
-.table td {
-    vertical-align: middle;
-}
-
-/* POLL CONTAINER */
-#polls-container {
-    font-size: 13px;
-}
-
-/* EACH POLL BLOCK */
-#polls-container > div {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background: #ffffff;
-    border: 1px solid #eee;
-}
-
-/* POLL BUTTONS */
-#polls-container button {
-    margin: 3px;
-    font-size: 12px;
-    padding: 4px 8px;
-}
-
-/* RESULTS TEXT */
-#polls-container p {
-    margin: 2px 0;
-    font-size: 12px;
-}
-
-/* SMALL TEXT */
-small {
-    font-size: 12px;
-    color: #555;
-}
-
-/* MAP */
-iframe {
-    border-radius: 8px;
-}
-
-/* IP SECTION */
-#ip-result {
-    margin-top: 8px;
-    font-weight: 500;
+.hidden {
+    display: none;
 }

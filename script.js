@@ -485,121 +485,287 @@
 //             document.getElementById(`res-${pollId}`).innerHTML = html;
 //         });
 // }
+// const BASE_URL = "https://password-checker-i2dj.onrender.com";
+
+// document.addEventListener("DOMContentLoaded", function () {
+
+//     // PASSWORD CHECK
+//     document.getElementById('password-form').addEventListener('submit', function (e) {
+//         e.preventDefault();
+
+//         const password = document.getElementById('password').value;
+
+//         fetch(`${BASE_URL}/checkPasswordStrength`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ password })
+//         })
+//         .then(res => res.json())
+//         .then(data => {
+//             document.getElementById('strength-score').textContent = "Strength: " + data.strength_score;
+//             document.getElementById('recommendations').textContent = data.advice;
+//             document.getElementById('breach-status').textContent =
+//                 data.breached ? "⚠️ Breached" : "✅ Safe";
+//         });
+//     });
+
+//     // GENERATE
+//     document.getElementById('generate-password').addEventListener('click', () => {
+//         fetch(`${BASE_URL}/generateStrongPassword`, { method: 'POST' })
+//             .then(res => res.json())
+//             .then(data => {
+//                 document.getElementById('generated-password').value = data.generated_password;
+//             });
+//     });
+
+//     // SAVE
+//     document.getElementById('save-password').addEventListener('click', () => {
+//         const website = document.getElementById('website').value;
+//         const password = document.getElementById('generated-password').value;
+
+//         fetch(`${BASE_URL}/savePassword`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ website, password })
+//         })
+//         .then(() => alert("Saved!"));
+//     });
+
+//     // LOAD PASSWORDS
+//     document.getElementById('show-table').addEventListener('click', loadPasswords);
+
+//     function loadPasswords() {
+//         fetch(`${BASE_URL}/getPasswords`)
+//             .then(res => res.json())
+//             .then(data => {
+//                 const table = document.getElementById('password-table');
+//                 table.innerHTML = "";
+
+//                 data.forEach(item => {
+//                     table.innerHTML += `
+//                         <tr>
+//                             <td>${item.website}</td>
+//                             <td>${item.password}</td>
+//                             <td>${new Date(item.time).toLocaleString()}</td>
+//                         </tr>
+//                     `;
+//                 });
+//             });
+//     }
+
+//     // ================= POLL =================
+
+//     document.getElementById('load-polls').addEventListener('click', () => {
+
+//         fetch(`${BASE_URL}/pollsProxy`)
+//             .then(async res => {
+//                 const data = await res.json();
+
+//                 if (!res.ok) {
+//                     throw new Error(data.details || "Server error");
+//                 }
+
+//                 return data;
+//             })
+//             .then(data => {
+
+//                 const container = document.getElementById('polls-container');
+//                 container.innerHTML = "";
+
+//                 data.forEach(poll => {
+//                     let html = `<h4>${poll.question}</h4>`;
+
+//                     poll.options.forEach(opt => {
+//                         html += `<button onclick="vote('${poll.id}','${opt.id}')">${opt.text}</button>`;
+//                     });
+
+//                     html += `<button onclick="results('${poll.id}')">Results</button>`;
+//                     html += `<div id="res-${poll.id}"></div>`;
+
+//                     container.innerHTML += `<div class="mb-3">${html}</div>`;
+//                 });
+//             })
+//             .catch(err => {
+//                 console.error("Poll Load Error:", err.message);
+//                 alert("Error: " + err.message);
+//             });
+//     });
+
+//     // CREATE POLL
+//     document.getElementById('create-poll').addEventListener('click', () => {
+
+//         const question = document.getElementById('poll-question').value;
+//         const options = document.getElementById('poll-options').value.split(",");
+
+//         fetch(`${BASE_URL}/createPollProxy`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({
+//                 question,
+//                 options,
+//                 category: "general",
+//                 created_by: "Rajesh"
+//             })
+//         })
+//         .then(async res => {
+//             const data = await res.json();
+
+//             if (!res.ok) {
+//                 throw new Error(data.details || "Create failed");
+//             }
+
+//             alert("Poll created!");
+//         })
+//         .catch(err => {
+//             console.error("Create Poll Error:", err.message);
+//             alert(err.message);
+//         });
+//     });
+
+// });
+
+
+// // GLOBAL FUNCTIONS
+
+// function vote(pollId, optionId) {
+//     fetch(`https://password-checker-i2dj.onrender.com/voteProxy/${pollId}`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             option_id: optionId,
+//             voter_token: Math.random().toString()
+//         })
+//     })
+//     .then(() => alert("Voted!"))
+//     .catch(() => alert("Vote failed"));
+// }
+
+// function results(pollId) {
+//     fetch(`https://password-checker-i2dj.onrender.com/resultsProxy/${pollId}`)
+//         .then(res => res.json())
+//         .then(data => {
+//             let html = "";
+
+//             data.results.forEach(r => {
+//                 html += `<p>${r.option_text}: ${r.votes}</p>`;
+//             });
+
+//             document.getElementById(`res-${pollId}`).innerHTML = html;
+//         })
+//         .catch(() => alert("Failed to load results"));
+// }
 const BASE_URL = "https://password-checker-i2dj.onrender.com";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     // PASSWORD CHECK
-    document.getElementById('password-form').addEventListener('submit', function (e) {
+    document.getElementById("password-form").addEventListener("submit", e => {
         e.preventDefault();
 
-        const password = document.getElementById('password').value;
+        const password = document.getElementById("password").value;
 
         fetch(`${BASE_URL}/checkPasswordStrength`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ password })
         })
         .then(res => res.json())
         .then(data => {
-            document.getElementById('strength-score').textContent = "Strength: " + data.strength_score;
-            document.getElementById('recommendations').textContent = data.advice;
-            document.getElementById('breach-status').textContent =
+            document.getElementById("strength-score").textContent = "Strength: " + data.strength_score;
+            document.getElementById("recommendations").textContent = data.advice;
+            document.getElementById("breach-status").textContent =
                 data.breached ? "⚠️ Breached" : "✅ Safe";
         });
     });
 
     // GENERATE
-    document.getElementById('generate-password').addEventListener('click', () => {
-        fetch(`${BASE_URL}/generateStrongPassword`, { method: 'POST' })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('generated-password').value = data.generated_password;
-            });
-    });
+    document.getElementById("generate-password").onclick = () => {
+        fetch(`${BASE_URL}/generateStrongPassword`, { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("generated-password").value = data.generated_password;
+        });
+    };
 
     // SAVE
-    document.getElementById('save-password').addEventListener('click', () => {
-        const website = document.getElementById('website').value;
-        const password = document.getElementById('generated-password').value;
+    document.getElementById("save-password").onclick = () => {
+        const website = document.getElementById("website").value;
+        const password = document.getElementById("generated-password").value;
 
         fetch(`${BASE_URL}/savePassword`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ website, password })
         })
         .then(() => alert("Saved!"));
-    });
+    };
 
-    // LOAD PASSWORDS
-    document.getElementById('show-table').addEventListener('click', loadPasswords);
+    // TABLE SHOW/HIDE
+    document.getElementById("show-table").onclick = () => {
+        document.getElementById("table-section").classList.remove("hidden");
+        loadPasswords();
+    };
+
+    document.getElementById("hide-table").onclick = () => {
+        document.getElementById("table-section").classList.add("hidden");
+    };
 
     function loadPasswords() {
         fetch(`${BASE_URL}/getPasswords`)
-            .then(res => res.json())
-            .then(data => {
-                const table = document.getElementById('password-table');
-                table.innerHTML = "";
+        .then(res => res.json())
+        .then(data => {
+            const table = document.getElementById("password-table");
+            table.innerHTML = "";
 
-                data.forEach(item => {
-                    table.innerHTML += `
-                        <tr>
-                            <td>${item.website}</td>
-                            <td>${item.password}</td>
-                            <td>${new Date(item.time).toLocaleString()}</td>
-                        </tr>
-                    `;
-                });
+            data.forEach(item => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${item.website}</td>
+                        <td>${item.password}</td>
+                        <td>${new Date(item.time).toLocaleString()}</td>
+                    </tr>`;
             });
+        });
     }
 
-    // ================= POLL =================
-
-    document.getElementById('load-polls').addEventListener('click', () => {
-
+    // LOAD POLLS
+    document.getElementById("load-polls").onclick = () => {
         fetch(`${BASE_URL}/pollsProxy`)
-            .then(async res => {
-                const data = await res.json();
+        .then(async res => {
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.details || "Poll error");
+            return data;
+        })
+        .then(data => {
+            const container = document.getElementById("polls-container");
+            container.innerHTML = "";
 
-                if (!res.ok) {
-                    throw new Error(data.details || "Server error");
-                }
+            data.forEach(poll => {
+                let html = `<p><b>${poll.question}</b></p>`;
 
-                return data;
-            })
-            .then(data => {
-
-                const container = document.getElementById('polls-container');
-                container.innerHTML = "";
-
-                data.forEach(poll => {
-                    let html = `<h4>${poll.question}</h4>`;
-
-                    poll.options.forEach(opt => {
-                        html += `<button onclick="vote('${poll.id}','${opt.id}')">${opt.text}</button>`;
-                    });
-
-                    html += `<button onclick="results('${poll.id}')">Results</button>`;
-                    html += `<div id="res-${poll.id}"></div>`;
-
-                    container.innerHTML += `<div class="mb-3">${html}</div>`;
+                poll.options.forEach(opt => {
+                    html += `<button onclick="vote('${poll.id}','${opt.id}')">${opt.text}</button>`;
                 });
-            })
-            .catch(err => {
-                console.error("Poll Load Error:", err.message);
-                alert("Error: " + err.message);
+
+                html += `<button onclick="results('${poll.id}')">Results</button>`;
+                html += `<div id="res-${poll.id}"></div>`;
+
+                container.innerHTML += `<div>${html}</div>`;
             });
-    });
+        })
+        .catch(err => {
+            alert(err.message);
+        });
+    };
 
     // CREATE POLL
-    document.getElementById('create-poll').addEventListener('click', () => {
-
-        const question = document.getElementById('poll-question').value;
-        const options = document.getElementById('poll-options').value.split(",");
+    document.getElementById("create-poll").onclick = () => {
+        const question = document.getElementById("poll-question").value;
+        const options = document.getElementById("poll-options").value.split(",");
 
         fetch(`${BASE_URL}/createPollProxy`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 question,
                 options,
@@ -607,50 +773,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 created_by: "Rajesh"
             })
         })
-        .then(async res => {
-            const data = await res.json();
+        .then(res => res.json())
+        .then(() => alert("Poll created"))
+        .catch(() => alert("Error creating poll"));
+    };
 
-            if (!res.ok) {
-                throw new Error(data.details || "Create failed");
-            }
-
-            alert("Poll created!");
-        })
-        .catch(err => {
-            console.error("Create Poll Error:", err.message);
-            alert(err.message);
+    // IP
+    document.getElementById("get-ip").onclick = () => {
+        fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("ip-result").textContent = data.ip;
         });
-    });
+    };
 
 });
 
-
 // GLOBAL FUNCTIONS
-
 function vote(pollId, optionId) {
     fetch(`https://password-checker-i2dj.onrender.com/voteProxy/${pollId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             option_id: optionId,
             voter_token: Math.random().toString()
         })
     })
-    .then(() => alert("Voted!"))
+    .then(() => alert("Voted"))
     .catch(() => alert("Vote failed"));
 }
 
 function results(pollId) {
     fetch(`https://password-checker-i2dj.onrender.com/resultsProxy/${pollId}`)
-        .then(res => res.json())
-        .then(data => {
-            let html = "";
-
-            data.results.forEach(r => {
-                html += `<p>${r.option_text}: ${r.votes}</p>`;
-            });
-
-            document.getElementById(`res-${pollId}`).innerHTML = html;
-        })
-        .catch(() => alert("Failed to load results"));
+    .then(res => res.json())
+    .then(data => {
+        let html = "";
+        data.results.forEach(r => {
+            html += `<p>${r.option_text}: ${r.votes}</p>`;
+        });
+        document.getElementById(`res-${pollId}`).innerHTML = html;
+    });
 }
