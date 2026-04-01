@@ -1,10 +1,10 @@
 const BASE_URL = "https://password-checker-i2dj.onrender.com";
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     // PASSWORD CHECK
-    document.getElementById('password-form').addEventListener('submit', function (event) {
-        event.preventDefault();
+    document.getElementById('password-form').addEventListener('submit', function (e) {
+        e.preventDefault();
 
         const password = document.getElementById('password').value;
 
@@ -21,37 +21,28 @@ window.onload = function () {
             document.getElementById('recommendations').textContent =
                 data.advice;
 
-            const breach = document.getElementById('breach-status');
-
-            if (data.breached) {
-                breach.textContent = "⚠️ Breached!";
-                breach.className = "text-danger fw-bold";
-            } else {
-                breach.textContent = "✅ Safe";
-                breach.className = "text-success fw-bold";
-            }
+            document.getElementById('breach-status').textContent =
+                data.breached ? "⚠️ Breached" : "✅ Safe";
         });
     });
 
-    // GENERATE PASSWORD
+    // GENERATE
     document.getElementById('generate-password').addEventListener('click', () => {
-        fetch(`${BASE_URL}/generateStrongPassword`, {
-            method: 'POST'
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('generated-password').value =
-                data.generated_password;
-        });
+        fetch(`${BASE_URL}/generateStrongPassword`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('generated-password').value =
+                    data.generated_password;
+            });
     });
 
-    // SAVE PASSWORD
+    // SAVE
     document.getElementById('save-password').addEventListener('click', () => {
         const website = document.getElementById('website').value;
         const password = document.getElementById('generated-password').value;
 
         if (!website || !password) {
-            alert("Enter website and generate password!");
+            alert("Enter details!");
             return;
         }
 
@@ -60,10 +51,7 @@ window.onload = function () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ website, password })
         })
-        .then(() => {
-            alert("Saved successfully!");
-            document.getElementById('website').value = "";
-        });
+        .then(() => alert("Saved!"));
     });
 
     // SHOW TABLE
@@ -86,19 +74,18 @@ window.onload = function () {
                 table.innerHTML = "";
 
                 data.forEach(item => {
-                    const row = `
+                    table.innerHTML += `
                         <tr>
                             <td>${item.website}</td>
                             <td>${item.password}</td>
                             <td>${new Date(item.time).toLocaleString()}</td>
                         </tr>
                     `;
-                    table.innerHTML += row;
                 });
             });
     }
 
-    // PUBLIC API
+    // IP API
     document.getElementById('get-ip').addEventListener('click', () => {
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
@@ -108,4 +95,4 @@ window.onload = function () {
             });
     });
 
-};
+});
