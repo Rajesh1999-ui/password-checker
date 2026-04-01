@@ -1,33 +1,44 @@
+// ✅ USE YOUR RENDER URL
+const BASE_URL = "https://password-checker-i2dj.onrender.com";
+
+// Password check
 document.getElementById('password-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const password = document.getElementById('password').value;
-    
-   fetch('http://localhost:3000/checkPasswordStrength', {
+
+    fetch(`${BASE_URL}/checkPasswordStrength`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: password })
+        body: JSON.stringify({ password })
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-        document.getElementById('strength-score').textContent = `Password Strength: ${data.strength_score}`;
-        document.getElementById('recommendations').textContent = `Recommendations: ${data.advice}`;
+        document.getElementById('strength-score').textContent =
+            `Password Strength: ${data.strength_score}`;
+
+        document.getElementById('recommendations').textContent =
+            `Recommendations: ${data.advice}`;
+
+        document.getElementById('breach-status').textContent =
+            data.breached
+                ? "⚠️ This password has been found in breaches!"
+                : "✅ This password is safe.";
     })
-    .catch(error => console.error('Error:', error));
+    .catch(err => console.error("Error:", err));
 });
 
-document.getElementById('generate-password').addEventListener('click', function () {
-    const length = 12; // Default password length
-    const includeSpecialChars = true;
-
-    fetch('http://localhost:3000/generateStrongPassword', {
+// Generate password
+document.getElementById('generate-password').addEventListener('click', () => {
+    fetch(`${BASE_URL}/generateStrongPassword`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ length: length, include_special_chars: includeSpecialChars })
+        body: JSON.stringify({ length: 12, include_special_chars: true })
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-        document.getElementById('generated-password').value = data.generated_password;
+        document.getElementById('generated-password').value =
+            data.generated_password;
     })
-    .catch(error => console.error('Error:', error));
+    .catch(err => console.error("Error:", err));
 });

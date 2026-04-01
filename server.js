@@ -8,25 +8,23 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // ✅ PORT FIX
 const port = process.env.PORT || 3000;
 
-// ✅ SERVE ALL FILES IN CURRENT FOLDER
+// ✅ SERVE FRONTEND
 app.use(express.static(__dirname));
 
-// ✅ ROOT ROUTE (IMPORTANT)
+// ✅ ROOT ROUTE
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// File path
 const filePath = path.join(__dirname, 'data.json');
 
-// PASSWORD CHECK
+// 🔐 PASSWORD CHECK
 app.post('/checkPasswordStrength', async (req, res) => {
     const { password } = req.body;
 
@@ -81,7 +79,7 @@ app.post('/checkPasswordStrength', async (req, res) => {
     });
 });
 
-// PASSWORD GENERATOR
+// 🔑 PASSWORD GENERATOR
 app.post('/generateStrongPassword', (req, res) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let password = '';
@@ -93,7 +91,7 @@ app.post('/generateStrongPassword', (req, res) => {
     res.json({ generated_password: password });
 });
 
-// START SERVER
+// 🚀 START SERVER
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

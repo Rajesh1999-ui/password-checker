@@ -1,27 +1,31 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Checker</title>
+   <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Password Strength Checker</h1>
+
         <form id="password-form">
-            <label for="password">Enter Password:</label>
-            <input type="password" id="password" name="password" required>
+            <label>Enter Password:</label>
+            <input type="password" id="password" required>
             <button type="submit">Check Strength</button>
         </form>
 
-        <div id="result" class="result">
-            <p id="strength-score">Password Strength: </p>
-            <p id="recommendations">Recommendations: </p>
+        <div class="result">
+            <p id="strength-score">Password Strength:</p>
+            <p id="recommendations">Recommendations:</p>
+            <p id="breach-status"></p>
         </div>
 
         <h3>Generate a Strong Password</h3>
-        <button id="generate-password">Generate Strong Password</button>
+        <button id="generate-password">Generate Password</button>
         <input type="text" id="generated-password" readonly>
     </div>
 
