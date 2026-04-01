@@ -11,20 +11,19 @@ const path = require('path');
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ PORT FIX
 const port = process.env.PORT || 3000;
 
-// ✅ SERVE FRONTEND
+// Serve frontend
 app.use(express.static(__dirname));
 
-// ✅ ROOT ROUTE
+// Fix homepage
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const filePath = path.join(__dirname, 'data.json');
 
-// 🔐 PASSWORD CHECK
+// Password check
 app.post('/checkPasswordStrength', async (req, res) => {
     const { password } = req.body;
 
@@ -33,10 +32,6 @@ app.post('/checkPasswordStrength', async (req, res) => {
     }
 
     const result = zxcvbn(password);
-
-    let advice = result.score <= 2
-        ? 'Improve password strength.'
-        : 'Strong password.';
 
     const sha1 = crypto.createHash('sha1')
         .update(password)
@@ -59,9 +54,7 @@ app.post('/checkPasswordStrength', async (req, res) => {
                 break;
             }
         }
-    } catch (err) {
-        console.log(err.message);
-    }
+    } catch {}
 
     let data = [];
     try {
@@ -74,12 +67,12 @@ app.post('/checkPasswordStrength', async (req, res) => {
 
     res.json({
         strength_score: result.score,
-        advice,
+        advice: result.score <= 2 ? "Weak password" : "Strong password",
         breached
     });
 });
 
-// 🔑 PASSWORD GENERATOR
+// Password generator
 app.post('/generateStrongPassword', (req, res) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let password = '';
@@ -91,7 +84,6 @@ app.post('/generateStrongPassword', (req, res) => {
     res.json({ generated_password: password });
 });
 
-// 🚀 START SERVER
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
